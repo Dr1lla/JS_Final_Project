@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+</head>
+<body>
+<div id="userContainer"></div>
+
+<script>
+    // Отримання масиву об'єктів з endpoint'а
+    fetch('https://jsonplaceholder.typicode.com/users')
+        .then(response => response.json())
+        .then(users => {
+            // Створення контейнера для блоків користувачів
+            const userContainer = document.getElementById('userContainer');
+
+            // Виведення id та name кожного користувача
+            users.forEach(user => {
+                // Створення блоку для кожного користувача
+                const userBlock = document.createElement('div');
+                userBlock.innerHTML = `<p>ID: ${user.id}, Name: ${user.name}</p>`;
+
+                // Створення кнопки для переходу на сторінку user-details.html
+                const detailsButton = document.createElement('button');
+                detailsButton.textContent = 'Details';
+                detailsButton.addEventListener('click', () => {
+                    // Перехід на сторінку user-details.html з параметром userId
+                    window.location.href = `user-details.html?userId=${user.id}`;
+                });
+
+                // Додавання кнопки до блоку
+                userBlock.appendChild(detailsButton);
+
+                // Додавання блоку до контейнера
+                userContainer.appendChild(userBlock);
+            });
+        });
+</script>
+</body>
+</html>
