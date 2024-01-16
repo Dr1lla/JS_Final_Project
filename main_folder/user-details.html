@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+</head>
+<body>
+<div id="userInfo"></div>
+<button id="postsButton">Posts of current user</button>
+<div id="userPosts"></div>
+
+<script>
+    // Отримання userId з параметрів URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('userId');
+
+    // Створення URL для отримання інформації про користувача
+    const userUrl = `https://jsonplaceholder.typicode.com/users/${userId}`;
+
+    // Створення URL для отримання постів поточного користувача
+    const postsUrl = `https://jsonplaceholder.typicode.com/users/${userId}/posts`;
+
+    // Елемент для відображення інформації про користувача
+    const userInfoElement = document.getElementById('userInfo');
+
+    // Елемент для відображення постів користувача
+    const userPostsElement = document.getElementById('userPosts');
+
+    // Кнопка для отримання постів користувача
+    const postsButton = document.getElementById('postsButton');
+    postsButton.addEventListener('click', () => {
+        // Отримання постів поточного користувача
+        fetch(postsUrl)
+            .then(response => response.json())
+            .then(posts => {
+                // Виведення title кожного поста
+                userPostsElement.innerHTML = '';
+                posts.forEach(post => {
+                    const postButton = document.createElement('button');
+                    postButton.textContent = post.title;
+                    postButton.addEventListener('click', () => {
+                        // Перехід на сторінку post-details.html з параметром postId
+                        window.location.href = `post-details.html?postId=${post.id}`;
+                    });
+
+                    userPostsElement.appendChild(postButton);
+                });
+            });
+    });
+
+    // Отримання і виведення інформації про користувача
+    fetch(userUrl)
+        .then(response => response.json())
+        .then(user => {
+            userInfoElement.innerHTML = `
+                    <p>ID: ${user.id}</p>
+                    <p>Name: ${user.name}</p>
+                    <p>Username: ${user.username}</p>
+                    <p>Email: ${user.email}</p>
+                    <p>Phone: ${user.phone}</p>
+                `;
+        });
+</script>
+</body>
+</html>
