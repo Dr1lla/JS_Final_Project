@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+</head>
+<body>
+<div id="postInfo"></div>
+<h2>Comments</h2>
+<div id="postComments"></div>
+
+<script>
+    // Отримання postId з параметрів URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('postId');
+
+    // Створення URL для отримання інформації про пост
+    const postUrl = `https://jsonplaceholder.typicode.com/posts/${postId}`;
+
+    // Створення URL для отримання коментарів до поста
+    const commentsUrl = `https://jsonplaceholder.typicode.com/posts/${postId}/comments`;
+
+    // Елемент для відображення інформації про пост
+    const postInfoElement = document.getElementById('postInfo');
+
+    // Елемент для відображення коментарів
+    const postCommentsElement = document.getElementById('postComments');
+
+    // Отримання і виведення інформації про пост
+    fetch(postUrl)
+        .then(response => response.json())
+        .then(post => {
+            postInfoElement.innerHTML = `
+                    <p>ID: ${post.id}</p>
+                    <p>Title: ${post.title}</p>
+                    <p>Body: ${post.body}</p>
+                `;
+        });
+
+    // Отримання і виведення коментарів до поста
+    fetch(commentsUrl)
+        .then(response => response.json())
+        .then(comments => {
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.innerHTML = `
+                        <p>Name: ${comment.name}</p>
+                        <p>Email: ${comment.email}</p>
+                        <p>Body: ${comment.body}</p>
+                        <hr>
+                    `;
+                postCommentsElement.appendChild(commentElement);
+            });
+        });
+</script>
+</body>
+</html>
