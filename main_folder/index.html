@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users</title>
+    <style>
+        /* Стилізація для блоків користувачів */
+        #userContainer {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .userBlock {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            width: 45%; /* По 2 в рядок */
+            box-sizing: border-box;
+        }
+
+        /* Стилізація для кнопок */
+        .detailsButton {
+            display: block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div id="userContainer"></div>
@@ -20,10 +46,12 @@
             users.forEach(user => {
                 // Створення блоку для кожного користувача
                 const userBlock = document.createElement('div');
+                userBlock.classList.add('userBlock');
                 userBlock.innerHTML = `<p>ID: ${user.id}, Name: ${user.name}</p>`;
 
                 // Створення кнопки для переходу на сторінку user-details.html
                 const detailsButton = document.createElement('button');
+                detailsButton.classList.add('detailsButton');
                 detailsButton.textContent = 'Details';
                 detailsButton.addEventListener('click', () => {
                     // Перехід на сторінку user-details.html з параметром userId
